@@ -1,1 +1,41 @@
 
+创建会话
+创建一个会话。
+
+会话是智能体和用户之间的基于一个或多个主题的问答交互，一个会话包含一条或多条消息。创建会话时，扣子会同时在会话中创建一个空白的上下文片段，用于存储某个主题的消息。后续发起对话时，上下文片段中的消息是模型可见的消息历史。
+
+你可以在创建会话时同步写入消息，消息默认写入到最新的一个上下文片段中，对话时将作为上下文传递给模型。
+
+基础信息
+
+请求方式	POST
+请求地址	{{host}}/v1/conversation/create
+接口说明	创建一个会话。
+请求参数
+
+Header
+
+参数	取值	说明
+Authorization	Bearer $Access_Token	用于验证客户端身份的个人访问令牌。你可以在扣子平台中生成个人访问令牌，详细信息，参考【准备工作】。
+Content-Type	application/json	解释请求正文的方式。
+Body
+
+参数	类型	是否必选	示例	说明
+bot_id	String	可选	730454116184516*	会话对应的智能体 ID。
+创建会话时指定智能体 ID，后续才能通过 查看会话列表 查看指定智能体 ID 对应的会话列表。
+connector_id	String	可选	1024	该会话在哪个渠道创建。目前支持如下渠道：
+
+* API：（默认）1024
+* ChatSDK：999
+返回参数
+
+参数	类型	示例	说明
+data	Object of ConversationData	详见返回示例	会话的基础信息。详细说明可参考ConversationData。
+code	Long	0	调用状态码。0 表示调用成功，其他值表示调用失败，你可以通过 msg 字段判断详细的错误原因。
+msg	String	"Success"	状态信息。API 调用失败时可通过此字段查看详细错误信息。
+ConversationData
+
+参数	类型	示例	说明
+id	String	737999610479815****	Conversation ID，即会话的唯一标识。
+created_at	Long	1718289297	会话创建的时间。格式为 10 位的 Unixtime 时间戳，单位为秒。
+last_section_id	String	7495664347616952360	会话中最新的一个上下文片段 ID。
